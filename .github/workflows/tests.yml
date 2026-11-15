@@ -1,18 +1,71 @@
 name: tests
-on: [push, pull_request]
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:            # manual run from the Actions tab
+    inputs:
+      run_a11y:
+        description: 'Run accessibility checks'
+        type: boolean
+        default: false
+  schedule:
+    - cron: '0 2 * * *'         # nightly cross-browser run (UTC)
+
 jobs:
-  playwright:
+  all-tests:
+    name: API + UI (Chromium)
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: 20 }
-      - run: npm ci || npm install
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
       - run: npx playwright install --with-deps chromium
-      - run: npm test
-        env: { CI: 'true' }
+      - run: npx playwright test
+        env:
+          CI: 'true'
+          RUN_A11Y: ${{ inputs.run_a11y == true && 'true' || 'false' }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: report-chromium
           path: playwright-report/
+          retention-days: 14
+
+  cross-browser:
+    name: UI (${{ matrix.project }})
+    # Run on manual and nightly triggers, not on every push
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false          # one browser failing shouldn't cancel the others
+      matrix:
+        include:
+          - { project: ui,         browser: chromium }
+          - { project: ui-firefox, browser: firefox }
+          - { project: ui-webkit,  browser: webkit }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps ${{ matrix.browser }}
+      - run: npx playwright test --project=${{ matrix.project }}
+        env:
+          CI: 'true'
+          CROSS_BROWSER: 'true'
+          RUN_A11Y: ${{ inputs.run_a11y == true && 'true' || 'false' }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: report-${{ matrix.project }}
+          path: playwright-report/
+          retention-days: 14
