@@ -1,6 +1,6 @@
 export type PetStatus = 'available' | 'pending' | 'sold';
 
-export interface Pet {
+export type Pet = {
   id: number;
   category?: { id: number; name: string };
   name: string;
