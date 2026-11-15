@@ -163,5 +163,5 @@ Test at the lowest layer that can prove the risk.
 - **Custom UI components:** OrangeHRM's dropdowns and autocompletes are not native elements, so they go through shared
   helpers instead of `selectOption`.
 - **Assertion strictness:** I assert the contract that matters, not undocumented sandbox behaviour.
-- **Scope:** one hour of work, so one API lifecycle, one UI journey, and a small set of negatives, with the rest
+- **Scope:** Only one API lifecycle, one happy path UI journey, and a small set of negatives, with the rest
   prioritised above.
