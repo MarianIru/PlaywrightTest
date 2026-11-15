@@ -141,31 +141,18 @@ Test at the lowest layer that can prove the risk.
 ## 4. Additional scenarios (priority order)
 
 ### API (Petstore)
-| # | Scenario | Type | Rationale |
-|---|---|---|---|
-| 1 | PUT /pet updates fields; GET reflects the change | + | Core mutation path |
-| 2 | POST with missing required fields (`name`, `photoUrls`) | - | Spec says required; sandbox is lenient, so this documents a defect |
-| 3 | GET /pet/findByStatus for each status; invalid status | +/- | Filter correctness, enum validation |
-| 4 | Boundary ids (0, negative, int64 max), long strings, unicode names | - | Input-boundary defects |
-| 5 | Response schema or Pact contract validation | + | Detects breaking changes early |
-| 6 | Idempotency: repeated DELETE/PUT, duplicate POST | +/- | Retry safety |
-| 7 | Form update and uploadImage (wrong content type, oversized file) | +/- | Remaining endpoints |
-| 8 | Injection strings; missing or invalid `api_key` on DELETE | - | Sanitisation and authorisation |
-| 9 | Response-time smoke threshold; concurrent writes | NFR | Early performance and consistency signal |
+1. PUT /pet: update a pet and confirm the change, because it’s the other core write path.
+2. POST with missing required fields: the spec says they’re required, so I’d check the API enforces it.
+3. findByStatus with each valid status and an invalid one: tests filtering and validation.
+4. Boundary ids and unusual input (zero, negative, very long names): common source of defects.
+5. Schema/contract check on responses: catches breaking changes early.
 
 ### UI (OrangeHRM)
-| # | Scenario | Type | Rationale |
-|---|---|---|---|
-| 1 | Login with empty fields shows "Required" | - | Client-side validation |
-| 2 | Disabled user cannot log in | - | Status enforcement |
-| 3 | New user with wrong password cannot log in | - | Credential check |
-| 4 | Logged-out access to a protected URL redirects to login | - | Session security |
-| 5 | Create employee via API, then find it in PIM search | + | Setup via API, assert via UI |
-| 6 | PIM: add employee with missing or duplicate data | - | Validation and uniqueness |
-| 7 | Role-based access: ESS user cannot see Admin menu | +/- | Permissions |
-| 8 | Login with SQL/XSS characters | - | Input handling, no error leakage |
-| 9 | Job titles: list, add, delete | + | CRUD list verification |
-| 10 | Mobile viewport smoke | NFR | Responsive behaviour |
+1. Login with empty fields: client-side validation.
+2. Disabled user cannot log in: checks the status is actually enforced.
+3. Protected page redirects to login when logged out: session security.
+4. Create an employee through the API, then find them in PIM search: faster setup, UI used only for the search.
+5. Accessibility scan on key pages: cheap to add and relevant for a government service.
 
 ## 5. Trade-offs and challenges
 - **Shared public services:** collisions, slowness and resets are possible. Mitigated with generated unique data, own
@@ -176,5 +163,5 @@ Test at the lowest layer that can prove the risk.
 - **Custom UI components:** OrangeHRM's dropdowns and autocompletes are not native elements, so they go through shared
   helpers instead of `selectOption`.
 - **Assertion strictness:** I assert the contract that matters, not undocumented sandbox behaviour.
-- **Scope:** one hour of work, so one API lifecycle, one UI journey, and a small set of negatives, with the rest
+- **Scope:** Only one API lifecycle, one happy path UI journey, and a small set of negatives, with the rest
   prioritised above.
