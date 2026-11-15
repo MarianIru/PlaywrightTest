@@ -31,7 +31,7 @@ export class PetClient {
   /** Sends a raw string body, used to exercise malformed-input handling. */
   createRaw(rawBody: string): Promise<APIResponse> {
     return this.request.post('pet', {
-      data: rawBody,
+      data: Buffer.from(rawBody),
       headers: { 'Content-Type': 'application/json' },
     });
   }
