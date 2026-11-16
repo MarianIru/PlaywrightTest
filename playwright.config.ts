@@ -37,6 +37,7 @@ export default defineConfig({
           use: {
               ...deviceByBrowser[testConfig.browser],
               baseURL: testConfig.orangeHrmBaseUrl,
+              headless: true,
               trace: 'on-first-retry',
               screenshot: 'only-on-failure',
               video: 'retain-on-failure',
