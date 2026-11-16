@@ -10,7 +10,7 @@ on:
         type: boolean
         default: false
   schedule:
-    - cron: '0 2 * * *'         # nightly cross-browser run (UTC)
+    - cron: '0 11 * * *'         # nightly cross-browser run (UTC)
 
 jobs:
   all-tests:
@@ -37,18 +37,16 @@ jobs:
           retention-days: 14
 
   cross-browser:
-    name: UI (${{ matrix.project }})
-    # Run on manual and nightly triggers, not on every push
+    name: UI (${{ matrix.browser }})
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
     runs-on: ubuntu-latest
-    timeout-minutes: 25
     strategy:
-      fail-fast: false          # one browser failing shouldn't cancel the others
+      fail-fast: false
       matrix:
         include:
-          - { project: ui,         browser: chromium }
-          - { project: ui-firefox, browser: firefox }
-          - { project: ui-webkit,  browser: webkit }
+          - { browser: chromium, grep: '.*' }
+          - { browser: firefox,  grep: '@smoke' }
+          - { browser: webkit,   grep: '@smoke' }
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -57,14 +55,14 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps ${{ matrix.browser }}
-      - run: npx playwright test --project=${{ matrix.project }}
+      - run: npx playwright test --project=ui --grep "${{ matrix.grep }}"
         env:
           CI: 'true'
-          CROSS_BROWSER: 'true'
+          BROWSER: ${{ matrix.browser }}
           RUN_A11Y: ${{ inputs.run_a11y == true && 'true' || 'false' }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: report-${{ matrix.project }}
+          name: report-${{ matrix.browser }}
           path: playwright-report/
           retention-days: 14

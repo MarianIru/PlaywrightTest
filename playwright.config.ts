@@ -1,6 +1,12 @@
 import { defineConfig, devices } from '@playwright/test';
 import { testConfig } from './src/config';
 
+const deviceByBrowser = {
+    chromium: devices['Desktop Chrome'],
+    firefox: devices['Desktop Firefox'],
+    webkit: devices['Desktop Safari'],
+};
+
 export default defineConfig({
   testDir: './src/tests',
   fullyParallel: false,
@@ -29,26 +35,12 @@ export default defineConfig({
           name: 'ui',
           testDir: './src/tests/ui',
           use: {
-              ...devices['Desktop Chrome'],
+              ...deviceByBrowser[testConfig.browser],
               baseURL: testConfig.orangeHrmBaseUrl,
               trace: 'on-first-retry',
               screenshot: 'only-on-failure',
               video: 'retain-on-failure',
           },
       },
-      ...(testConfig.crossBrowser
-          ? [
-              {
-                  name: 'ui-firefox',
-                  testDir: './tests/ui',
-                  use: {...devices['Desktop Firefox'], baseURL: testConfig.orangeHrmBaseUrl},
-              },
-              {
-                  name: 'ui-webkit',
-                  testDir: './tests/ui',
-                  use: {...devices['Desktop Safari'], baseURL: testConfig.orangeHrmBaseUrl},
-              },
-          ]
-          : []),
   ],
 });
