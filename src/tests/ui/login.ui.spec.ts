@@ -4,7 +4,6 @@ import userInfoConfig from '../../data/userData.json';
 import validatationText from '../../data/validationMessages.json';
 
 test.describe('OrangeHRM UI: login', () => {
-  test.describe.configure({ mode: 'serial' });
   const scenario = 'Admin - Add User';
 
   test('valid credentials land the user on the dashboard @smoke', async ({
@@ -35,8 +34,6 @@ test.describe('OrangeHRM UI: login', () => {
     //Login with the new user
     await adminPage.logInfo(scenario, 'Login with the new user credentials\n');
     await loginPage.login(generatedUsername, generatedPassword);
-
-    // axeUtil, crossBrowser setup
   });
 
   test('invalid credentials show an error and keep the user on the login page', async ({
