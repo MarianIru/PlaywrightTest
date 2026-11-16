@@ -5,6 +5,7 @@ export class PimPage extends BasePage {
     readonly addEmployeeHeading = this.page.getByRole('heading', { name: 'PIM' });
     readonly firstNameInput = this.page.getByPlaceholder('First Name');
     readonly lastNameInput = this.page.getByPlaceholder('Last Name');
+    readonly employeeIdInput = this.fieldInput('Employee Id');
 
     constructor(page: Page) {
         super(page);
@@ -20,6 +21,7 @@ export class PimPage extends BasePage {
         await this.runAccessibilityTest();
         await this.firstNameInput.fill(firstName);
         await this.lastNameInput.fill(lastName);
+        await this.employeeIdInput.fill(this.generateEmployeeId());
         await this.saveDetails('Save');
 
         // Wait for the save to finish: the app redirects to the employee's personal details page
