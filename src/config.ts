@@ -6,7 +6,7 @@ export const testConfig = {
     crossBrowser: process.env.CROSS_BROWSER === 'true',
     username: process.env.ORANGEHRM_USERNAME || 'Admin',
     password: process.env.ORANGEHRM_PASSWORD || 'admin123',
-    runAccessibilityTest: process.env.RUN_A11Y === 'false',
+    runAccessibilityTest: process.env.RUN_A11Y === 'true',
     browser: (process.env.BROWSER ?? 'chromium') as 'chromium' | 'firefox' | 'webkit',
     showBrowser: process.env.SHOW_BROWSER === 'true'
 };
