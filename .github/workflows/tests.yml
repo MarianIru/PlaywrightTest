@@ -10,7 +10,7 @@ on:
         type: boolean
         default: false
   schedule:
-    - cron: '0 11 * * *'         # nightly cross-browser run (UTC)
+    - cron: '0 12 * * *'         # nightly cross-browser run (UTC)
 
 jobs:
   all-tests:
