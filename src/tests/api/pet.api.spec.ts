@@ -6,8 +6,8 @@ test.describe('Petstore API: /pet', () => {
   test.describe('positive', () => {
     test('create, retrieve and delete a pet @smoke', async ({ petClient }) => {
       const pet = buildPet({ status: 'available' });
-
-      await test.step('POST /pet creates the pet and echoes it back', async () => {
+      console.info(`Created pet id: ${pet.id}`);
+      await test.step(`POST /pet creates pet ${pet.id}`, async () => {
         const response = await petClient.create(pet);
         expect(response.status()).toBe(200);
         expect(await response.json()).toMatchObject(pet);
@@ -18,6 +18,16 @@ test.describe('Petstore API: /pet', () => {
         expect(response.status()).toBe(200);
         const body = (await response.json()) as Pet;
         expect(body).toMatchObject({ id: pet.id, name: pet.name, status: 'available' });
+      });
+
+      await test.step(`POST /pet/${pet.id} updates name and status`, async () => {
+          const response = await petClient.updateById(pet.id, { name: 'qa-pet-renamed', status: 'sold' });
+          expect(response.status()).toBe(200);
+      });
+
+      await test.step('GET returns the updated values', async () => {
+          const body = await (await petClient.getById(pet.id)).json();
+          expect(body).toMatchObject({ id: pet.id, name: 'qa-pet-renamed', status: 'sold' });
       });
 
       await test.step('DELETE /pet/{id} removes it, after which GET returns 404', async () => {
@@ -52,5 +62,12 @@ test.describe('Petstore API: /pet', () => {
       expect(response.status()).toBeGreaterThanOrEqual(400);
       expect(response.status()).toBeLessThan(500);
     });
+
+    test('update of an unknown pet id does not create the pet', async ({ petClient }) => {
+        const unknownId = uniqueId();
+        const update = await petClient.updateById(unknownId, { name: 'ghost', status: 'sold' });
+        expect(update.status(), `body: ${await update.text()}`).toBeLessThan(500);
+        expect((await petClient.getById(unknownId)).status()).toBe(404);
+      });
   });
 });

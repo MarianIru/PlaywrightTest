@@ -1,5 +1,6 @@
 import { APIRequestContext, APIResponse } from '@playwright/test';
 import { Pet } from './types';
+import { PetStatus } from './types';
 
 /**
  * Thin API client for the /pet resource. Tests describe *what* to verify;
@@ -22,6 +23,10 @@ export class PetClient {
 
   update(pet: Pet): Promise<APIResponse> {
     return this.request.put('pet', { data: pet });
+  }
+
+  updateById(id: number | string, fields: { name?: string; status?: PetStatus }): Promise<APIResponse> {
+      return this.request.post(`pet/${id}`, { form: fields });
   }
 
   async delete(id: number | string): Promise<APIResponse> {
