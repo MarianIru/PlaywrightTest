@@ -29,8 +29,8 @@ shared, slow public site. Override with `npx playwright test --workers=4`.
 **Optional runs**
 ```bash
 RUN_A11Y=true npx playwright test --project=ui        # include accessibility (axe-core) scans
-CROSS_BROWSER=true npx playwright test --project=ui-firefox
-CROSS_BROWSER=true npx playwright test --project=ui-webkit
+BROWSER=firefox npx playwright test --project=ui --grep @smoke
+BROWSER=webkit npx playwright test --project=ui --grep @smoke
 ```
 (On Windows PowerShell use `$env:RUN_A11Y="true"; npx playwright test --project=ui`.)
 
@@ -40,7 +40,7 @@ All values are optional; defaults are built in. Override with environment variab
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `PETSTORE_BASE_URL` | `https://petstore.swagger.io/v2/` | API target (keep the trailing slash) |
+| `PETSTORE_BASE_URL` | `https://petstore.swagger.io/v2/` | API target |
 | `ORANGEHRM_BASE_URL` | `https://opensource-demo.orangehrmlive.com/` | UI target |
 | `ORANGEHRM_USERNAME` / `ORANGEHRM_PASSWORD` | `Admin` / `admin123` | Public demo credentials |
 | `RUN_A11Y` | `false` | `true` runs axe-core accessibility scans |
@@ -64,13 +64,13 @@ All values are optional; defaults are built in. Override with environment variab
 
 <!-- Adjust the folder names below to match your repository. -->
 ```
-tests/api/       API tests (Petstore)
-tests/ui/        UI tests (OrangeHRM)
-pages/ui/        Page objects: BasePage, LoginPage, DashboardPage, AdminPage, PimPage
-fixtures/        Playwright fixtures (page objects, API client with cleanup)
-data/            Test data and expected validation messages (JSON)
-utils/           AxeUtils (accessibility wrapper)
-config.ts        Environment-driven configuration
+src/tests/api/       API tests (Petstore)
+src/tests/ui/        UI tests (OrangeHRM)
+src/pages/ui/        Page objects: BasePage, LoginPage, DashboardPage, AdminPage, PimPage
+src/fixtures/        Playwright fixtures (page objects, API client with cleanup)
+src/data/            Test data and expected validation messages (JSON)
+src/utils/           AxeUtils (accessibility wrapper)
+src/config.ts        Environment-driven configuration
 playwright.config.ts
 ```
 
