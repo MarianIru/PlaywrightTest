@@ -27,6 +27,8 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npx playwright test
         env:
+          ORANGEHRM_USERNAME: ${{ secrets.ORANGEHRM_USERNAME }}
+          ORANGEHRM_PASSWORD: ${{ secrets.ORANGEHRM_PASSWORD }}
           CI: 'true'
           RUN_A11Y: ${{ inputs.run_a11y == true && 'true' || 'false' }}
       - uses: actions/upload-artifact@v4
@@ -57,6 +59,8 @@ jobs:
       - run: npx playwright install --with-deps ${{ matrix.browser }}
       - run: npx playwright test --project=ui --grep "${{ matrix.grep }}"
         env:
+          ORANGEHRM_USERNAME: ${{ secrets.ORANGEHRM_USERNAME }}
+          ORANGEHRM_PASSWORD: ${{ secrets.ORANGEHRM_PASSWORD }}
           CI: 'true'
           BROWSER: ${{ matrix.browser }}
           RUN_A11Y: ${{ inputs.run_a11y == true && 'true' || 'false' }}
