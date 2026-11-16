@@ -1,11 +1,11 @@
 import { Pet } from './types';
 
-/** Collision-resistant id so parallel workers and repeated runs never clash on the shared public API. */
+/** Collision-resistant id for unique vslue. */
 export function uniqueId(): number {
   return Math.floor(Math.random() * 1_000_000_000) + 1_000_000_000;
 }
 
-/** Test-data builder: valid by default, override only what the test cares about. */
+/** Test-data builder for default value */
 export function buildPet(overrides: Partial<Pet> = {}): Pet {
   const id = overrides.id ?? uniqueId();
   return {
