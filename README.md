@@ -15,6 +15,7 @@ API tests for the **Swagger Petstore** (`/pet` resource) and UI tests for **Oran
 
 ```bash
 npm install                      # installs dependencies and the Chromium browser
+cp .env.example .env             # holds the public demo credentials
 npm test                         # API + UI
 npm run test:api                 # API only
 npm run test:ui                  # UI only
@@ -38,13 +39,13 @@ Cross-browser runs need the extra browsers installed once: `npx playwright insta
 
 ## Configuration
 
-All values are optional; defaults are built in. Override with environment variables (see `.env.example`).
+Copy .env.example to .env before the first run. The OrangeHRM credentials are required; the other values have defaults.
 
 | Variable | Default | Purpose |
 |---|---|---|
 | `PETSTORE_BASE_URL` | `https://petstore.swagger.io/v2/` | API target |
 | `ORANGEHRM_BASE_URL` | `https://opensource-demo.orangehrmlive.com/` | UI target |
-| `ORANGEHRM_USERNAME` / `ORANGEHRM_PASSWORD` | `Admin` / `admin123` | Public demo credentials |
+| ORANGEHRM_USERNAME / ORANGEHRM_PASSWORD | none (required) | Public demo credentials, set in .env or as CI secrets
 | `BROWSER` | `chromium` | Browser used by the `ui` project (`chromium`, `firefox` or `webkit`) |
 | `RUN_A11Y` | `false` | `true` runs axe-core accessibility scans |
 | `CROSS_BROWSER` | `false` | `true` adds the `ui-firefox` and `ui-webkit` projects (`@smoke` tests only) |
@@ -175,9 +176,9 @@ Test at the lowest layer that can prove the risk.
 ## 5. Trade-offs and challenges
 - **Shared public services:** collisions, slowness and resets are possible. Mitigated with generated unique data, a
   single worker, CI retries, and trace/video on failure.
-- **Invalid session when switched from Admin to ESS login** After re-login the app can send a user back to the last page the previous user viewed (here an Admin page, which an 
-  ESS user can’t open). The journey therefore asserts the user is authenticated and then opens the dashboard from the 
-  menu.
+- **Redirect after re-login:** the app can send a user back to the last page the previous user viewed (here an Admin page,
+  which an ESS user can’t open). The journey therefore asserts the user is    authenticated, then opens the dashboard
+  from the menu.
 - **External dependency in CI:** the pipeline calls the live Petstore and OrangeHRM sites, so an outage there can fail a
   build that has nothing wrong with it. In a real project I would run against a controlled test environment or mock
   third-party dependencies.
