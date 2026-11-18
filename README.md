@@ -67,7 +67,7 @@ All values are optional; defaults are built in. Override with environment variab
 
 ```
 src/tests/api/       API tests (Petstore): pet.api.spec.ts
-src/tests/ui/        UI tests (OrangeHRM): addEmployee.ui.spec.ts (positive journey), negativeTests.spec.ts (login, add-user and PIM login-details validation)
+src/tests/ui/        UI tests (OrangeHRM): addEmployee.ui.spec.ts (positive journey), negativeTests.ui.spec.ts (login, add-user and PIM login-details validation)
 src/pages/api/       PetClient (API client), petFactory (test-data builder), types
 src/pages/ui/        Page objects: BasePage, LoginPage, DashboardPage, AdminPage, PimPage
 src/fixtures/        Playwright fixtures (page objects, API client with cleanup)
@@ -175,7 +175,7 @@ Test at the lowest layer that can prove the risk.
 ## 5. Trade-offs and challenges
 - **Shared public services:** collisions, slowness and resets are possible. Mitigated with generated unique data, a
   single worker, CI retries, and trace/video on failure.
-- **After re-login the app can send a user back to the last page the previous user viewed (here an Admin page, which an 
+- **Invalid session when switched from Admin to ESS login** After re-login the app can send a user back to the last page the previous user viewed (here an Admin page, which an 
   ESS user can’t open). The journey therefore asserts the user is authenticated and then opens the dashboard from the 
   menu.
 - **External dependency in CI:** the pipeline calls the live Petstore and OrangeHRM sites, so an outage there can fail a
