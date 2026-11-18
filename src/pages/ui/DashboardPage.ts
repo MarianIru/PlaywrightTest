@@ -13,7 +13,12 @@ export class DashboardPage extends BasePage{
       await expect(this.page).toHaveURL(/dashboard\/index/);
       await expect(this.heading).toBeVisible();
       await this.runAccessibilityTest();
-      await expect(this.pimLink).toBeEnabled();
-      await this.pimLink.click();
   }
+
+    async openPim(): Promise<void> {
+        await expect(this.pimLink).toBeEnabled();
+        await this.pimLink.click();
+        await expect(this.page).toHaveURL(/pim\/viewEmployeeList/);
+        await this.runAccessibilityTest();
+    }
 }

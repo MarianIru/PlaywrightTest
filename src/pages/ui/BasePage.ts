@@ -75,7 +75,6 @@ export class BasePage {
 
     async logInfo(scenarioName: string, log: string) {
         let ret = scenarioName;
-        // await this.page.waitForTimeout(testConfig.GetCaseRefFromUrlDelay);
         if (log) {
             ret = ret + " : " + log;
         }

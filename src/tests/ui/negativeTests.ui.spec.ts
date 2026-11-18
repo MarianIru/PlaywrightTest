@@ -3,38 +3,8 @@ import { testConfig } from '../../config';
 import userInfoConfig from '../../data/userData.json';
 import validatationText from '../../data/validationMessages.json';
 
-test.describe('OrangeHRM UI: login', () => {
-  const scenario = 'Admin - Add User';
-
-  test('valid credentials land the user on the dashboard @smoke', async ({
-    pimPage,
-    loginPage,
-    dashboardPage,
-    adminPage,
-  }) => {
-    const generatedUsername = adminPage.generateUsername();
-    const generatedPassword = adminPage.generatePassword();
-
-    await adminPage.logInfo(scenario, 'Login as admin');
-    await loginPage.login(testConfig.username, testConfig.password);
-
-    //View Dashboard page
-    await dashboardPage.expectLoaded();
-
-    //Add am employee through PIM
-    const employeeName = await pimPage.addEmployee();
-
-    //Navigate to Admin - User Management Page to add a user
-    await adminPage.logInfo(scenario, 'Add user');
-    await adminPage.viewAdminPage();
-    await adminPage.openAddUserForm();
-    await adminPage.addUser(employeeName, generatedUsername, generatedPassword);
-    await loginPage.logout();
-
-    //Login with the new user
-    await adminPage.logInfo(scenario, 'Login with the new user credentials\n');
-    await loginPage.login(generatedUsername, generatedPassword);
-  });
+test.describe('OrangeHRM UI: Negative scenarios', () => {
+  const scenario = 'Admin - Invalid login and incomplete add user form';
 
   test('invalid credentials show an error and keep the user on the login page', async ({
     adminPage,
