@@ -45,7 +45,7 @@ Copy .env.example to .env before the first run. The OrangeHRM credentials are re
 |---|---|---|
 | `PETSTORE_BASE_URL` | `https://petstore.swagger.io/v2/` | API target |
 | `ORANGEHRM_BASE_URL` | `https://opensource-demo.orangehrmlive.com/` | UI target |
-| ORANGEHRM_USERNAME / ORANGEHRM_PASSWORD | none (required) | Public demo credentials, set in .env or as CI secrets |
+| `ORANGEHRM_USERNAME` / `ORANGEHRM_PASSWORD` | none (required) | Public demo credentials, set in .env or as CI secrets |
 | `BROWSER` | `chromium` | Browser used by the `ui` project (`chromium`, `firefox` or `webkit`) |
 | `RUN_A11Y` | `false` | `true` runs axe-core accessibility scans |
 | `CROSS_BROWSER` | `false` | `true` adds the `ui-firefox` and `ui-webkit` projects (`@smoke` tests only) |
