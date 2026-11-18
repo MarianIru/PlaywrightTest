@@ -37,6 +37,8 @@ test.describe('OrangeHRM UI: Add User', () => {
     //Login with the new user
     await adminPage.logInfo(scenario, 'Login with the new user credentials\n');
     await loginPage.login(generatedUsername, generatedPassword);
+    await loginPage.expectLoggedIn();
+    await dashboardPage.openDashboard();
     await dashboardPage.expectLoaded();
     await loginPage.logout();
   });

@@ -3,10 +3,16 @@ import { BasePage } from './BasePage';
 
 export class DashboardPage extends BasePage{
   readonly heading = this.page.getByRole('heading', { name: 'Dashboard' });
+  readonly dashboardLink = this.page.getByRole('link', { name: 'Dashboard' });
   readonly pimLink = this.page.getByRole('link', { name: 'PIM' });
 
   constructor( page: Page ) {
       super(page);
+  }
+
+  async openDashboard(): Promise<void> {
+      await expect(this.dashboardLink).toBeEnabled();
+      await this.dashboardLink.click();
   }
 
   async expectLoaded(): Promise<void> {

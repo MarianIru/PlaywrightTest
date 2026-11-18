@@ -175,6 +175,9 @@ Test at the lowest layer that can prove the risk.
 ## 5. Trade-offs and challenges
 - **Shared public services:** collisions, slowness and resets are possible. Mitigated with generated unique data, a
   single worker, CI retries, and trace/video on failure.
+- **After re-login the app can send a user back to the last page the previous user viewed (here an Admin page, which an 
+  ESS user can’t open). The journey therefore asserts the user is authenticated and then opens the dashboard from the 
+  menu.
 - **External dependency in CI:** the pipeline calls the live Petstore and OrangeHRM sites, so an outage there can fail a
   build that has nothing wrong with it. In a real project I would run against a controlled test environment or mock
   third-party dependencies.

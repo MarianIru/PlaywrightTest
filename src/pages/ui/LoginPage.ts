@@ -27,6 +27,11 @@ export class LoginPage {
     await this.loginButton.click();
   }
 
+    async expectLoggedIn(): Promise<void> {
+        await expect(this.page).not.toHaveURL(/auth\/login/);
+        await expect(this.page.locator('.oxd-userdropdown-tab')).toBeVisible();
+    }
+
   async invalidLoginCheck() {
       await expect(this.invalidCredentialsMessage).toBeVisible();
       await expect(this.page).toHaveURL(/auth\/login/);
