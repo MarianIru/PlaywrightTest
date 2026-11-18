@@ -1,6 +1,6 @@
-import { APIRequestContext, APIResponse } from '@playwright/test';
-import { Pet } from './types';
-import { PetStatus } from './types';
+import { APIRequestContext, APIResponse } from "@playwright/test";
+import { Pet } from "./types";
+import { PetStatus } from "./types";
 
 /**
  * Thin API client for the /pet resource. Tests describe *what* to verify;
@@ -12,7 +12,7 @@ export class PetClient {
   constructor(private readonly request: APIRequestContext) {}
 
   async create(pet: Pet): Promise<APIResponse> {
-    const response = await this.request.post('pet', { data: pet });
+    const response = await this.request.post("pet", { data: pet });
     if (response.ok()) this.createdIds.add(pet.id);
     return response;
   }
@@ -22,11 +22,14 @@ export class PetClient {
   }
 
   update(pet: Pet): Promise<APIResponse> {
-    return this.request.put('pet', { data: pet });
+    return this.request.put("pet", { data: pet });
   }
 
-  updateById(id: number | string, fields: { name?: string; status?: PetStatus }): Promise<APIResponse> {
-      return this.request.post(`pet/${id}`, { form: fields });
+  updateById(
+    id: number | string,
+    fields: { name?: string; status?: PetStatus },
+  ): Promise<APIResponse> {
+    return this.request.post(`pet/${id}`, { form: fields });
   }
 
   async delete(id: number | string): Promise<APIResponse> {
@@ -35,9 +38,9 @@ export class PetClient {
 
   /** Sends a raw string body, used to exercise malformed-input handling. */
   createRaw(rawBody: string): Promise<APIResponse> {
-    return this.request.post('pet', {
+    return this.request.post("pet", {
       data: Buffer.from(rawBody),
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
   }
 

@@ -1,7 +1,5 @@
 {
   "employeeRole": "ESS",
-  "adminRole": "Admin",
-  "employeeName": "James Butler",
   "userStatusEnabled": "Enabled",
   "usernamePrefix": "TestUser",
   "existingUsername": "Admin",

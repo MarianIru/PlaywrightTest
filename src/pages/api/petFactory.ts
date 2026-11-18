@@ -1,4 +1,4 @@
-import { Pet } from './types';
+import { Pet } from "./types";
 
 /** Collision-resistant id for unique vslue. */
 export function uniqueId(): number {
@@ -10,11 +10,11 @@ export function buildPet(overrides: Partial<Pet> = {}): Pet {
   const id = overrides.id ?? uniqueId();
   return {
     id,
-    category: { id: 1, name: 'dogs' },
+    category: { id: 1, name: "dogs" },
     name: `qa-pet-${id}`,
-    photoUrls: ['https://example.com/photo.jpg'],
-    tags: [{ id: 1, name: 'automation' }],
-    status: 'available',
+    photoUrls: ["https://example.com/photo.jpg"],
+    tags: [{ id: 1, name: "automation" }],
+    status: "available",
     ...overrides,
   };
 }

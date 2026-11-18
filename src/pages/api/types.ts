@@ -1,4 +1,4 @@
-export type PetStatus = 'available' | 'pending' | 'sold';
+export type PetStatus = "available" | "pending" | "sold";
 
 export type Pet = {
   id: number;
@@ -7,7 +7,7 @@ export type Pet = {
   photoUrls: string[];
   tags?: { id: number; name: string }[];
   status?: PetStatus;
-}
+};
 
 export interface ApiError {
   code: number;
