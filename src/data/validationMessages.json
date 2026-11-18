@@ -1,7 +1,9 @@
 {
   "required": "Required",
   "passwordMismatch": "Passwords do not match",
+  "pimUsernameExists": "Username already exists",
   "usernameExists": "Already exists",
   "usernameTooShort": "Should be at least 5 characters",
-  "passwordTooShort": "Should have at least 7 characters"
+  "passwordTooShort": "Should have at least 7 characters",
+  "passwordNoNumber": "Your password must contain minimum 1 number"
 }

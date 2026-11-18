@@ -55,7 +55,7 @@ export class AdminPage extends BasePage {
         if (data.confirmPassword !== undefined) await this.confirmPasswordInput.fill(data.confirmPassword);
     }
 
-    async addUser(empName: string, username: string, password: string): Promise<void> {
+    async addUserRole(empName: string, username: string, password: string): Promise<void> {
         await expect(this.addUserHeading).toBeVisible();
         await this.fillUserForm({
             role: userInfo.employeeRole,
@@ -72,13 +72,6 @@ export class AdminPage extends BasePage {
     async submitUserForm(): Promise<void> {
         await this.saveDetails(userInfo.saveButton);
         await this.runAccessibilityTest();
-    }
-
-    async expectValidationError(scenario: string, label: string, message: string): Promise<void> {
-        const error = this.fieldError(label);
-        await expect(error).toHaveText(message);
-        const shown = (await error.count()) ? (await error.first().innerText()).trim() : 'no message shown';
-        await this.logInfo(scenario, `${label} shows "${shown}"`);
     }
 
     async expectStillOnAddUserForm(): Promise<void> {

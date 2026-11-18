@@ -22,11 +22,11 @@ export class BasePage {
 
     generatePassword(): string {
         const letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        const length = 10;
-        return Array.from(
-            { length },
-            () => letters[Math.floor(Math.random() * letters.length)]
-        ).join('');
+        const digits = '0123456789';
+        const pick = (chars: string) => chars[Math.floor(Math.random() * chars.length)];
+
+        const body = Array.from({ length: 8 }, () => pick(letters)).join('');
+        return `${body}${pick(digits)}${pick(digits)}`;
     }
 
     generateEmployeeId(): string {
@@ -65,6 +65,13 @@ export class BasePage {
             .locator('.oxd-input-group')
             .filter({ has: this.page.getByText(label, { exact: true }) })
             .locator('.oxd-input-field-error-message');
+    }
+
+    async expectValidationError(scenario: string, label: string, message: string): Promise<void> {
+        const error = this.fieldError(label);
+        await expect(error).toHaveText(message);
+        const shown = (await error.count()) ? (await error.first().innerText()).trim() : 'no message shown';
+        await this.logInfo(scenario, `${label} shows "${shown}"`);
     }
 
     async runAccessibilityTest() {
