@@ -65,8 +65,9 @@ export class AdminPage extends BasePage {
             password,
             confirmPassword: password,
         });
-        await this.saveDetails(userInfo.saveButton);
         await this.runAccessibilityTest();
+        await this.saveDetails(userInfo.saveButton);
+        await expect(this.page).toHaveURL(/admin\/viewSystemUsers/);
     }
 
     async submitUserForm(): Promise<void> {
