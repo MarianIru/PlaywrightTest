@@ -11,7 +11,7 @@ test.describe("OrangeHRM UI: Add User", () => {
     adminPage,
   }) => {
     const generatedUsername: string = adminPage.generateUsername();
-    const newGeneratedUsername: string = adminPage.generateUsername();
+    const newGeneratedUsername: string = adminPage.generateUsername() + 'n';
     const generatedPassword: string = adminPage.generatePassword();
 
     await adminPage.logInfo(scenario, "Login as admin");
