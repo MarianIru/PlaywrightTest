@@ -67,7 +67,7 @@ All values are optional; defaults are built in. Override with environment variab
 
 ```
 src/tests/api/       API tests (Petstore): pet.api.spec.ts
-src/tests/ui/        UI tests (OrangeHRM): addEmployee.ui.spec.ts (positive journey), negativeTests.spec.ts (login, add-user and PIM login-details validation)
+src/tests/ui/        UI tests (OrangeHRM): addEmployee.ui.spec.ts (positive journey), negativeTests.ui.spec.ts (login, add-user and PIM login-details validation)
 src/pages/api/       PetClient (API client), petFactory (test-data builder), types
 src/pages/ui/        Page objects: BasePage, LoginPage, DashboardPage, AdminPage, PimPage
 src/fixtures/        Playwright fixtures (page objects, API client with cleanup)
