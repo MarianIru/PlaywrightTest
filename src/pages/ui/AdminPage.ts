@@ -75,7 +75,7 @@ export class AdminPage extends BasePage {
     }
 
     async expectStillOnAddUserForm(): Promise<void> {
-        await expect.soft(this.addUserHeading).toBeVisible(); // not redirected, so no user was created
+        await expect(this.addUserHeading).toBeVisible();
     }
 
    async resetAddUserForm(): Promise<void> {
