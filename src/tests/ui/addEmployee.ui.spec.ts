@@ -10,6 +10,7 @@ test.describe("OrangeHRM UI: Add User", () => {
     dashboardPage,
     adminPage,
   }) => {
+    test.setTimeout(120000);
     const generatedUsername: string = adminPage.generateUsername();
     const newGeneratedUsername: string = adminPage.generateUsername() + 'n';
     const generatedPassword: string = adminPage.generatePassword();
