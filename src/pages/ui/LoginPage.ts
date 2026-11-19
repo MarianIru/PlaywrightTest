@@ -36,8 +36,15 @@ export class LoginPage {
   }
 
   async logout(): Promise<void> {
-    await this.page.locator(".oxd-userdropdown-tab").click();
-    await this.page.getByRole("menuitem", { name: "Logout" }).click();
-    await expect(this.page).toHaveURL(/auth\/login/);
+      const userMenu = this.page.locator(".oxd-userdropdown-tab");
+      const logoutItem = this.page.getByRole("menuitem", { name: "Logout" });
+
+      await expect(async () => {
+          if (!(await logoutItem.isVisible())) await userMenu.click();
+          await expect(logoutItem).toBeVisible({ timeout: 1_000 });
+      }).toPass({ timeout: 15_000 });
+
+      await logoutItem.click();
+      await expect(this.page).toHaveURL(/auth\/login/);
   }
 }
