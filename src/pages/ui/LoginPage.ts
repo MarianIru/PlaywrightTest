@@ -16,7 +16,7 @@ export class LoginPage {
 
   async goto(): Promise<void> {
     await this.page.goto("web/index.php/auth/login");
-    await expect(this.loginButton).toBeVisible(); // auto-waits: the demo site is slow to render
+    await expect(this.loginButton).toBeVisible();
   }
 
   async login(username: string, password: string): Promise<void> {
