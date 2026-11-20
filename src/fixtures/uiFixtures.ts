@@ -1,14 +1,14 @@
-import { test as base, expect } from '@playwright/test';
-import { PimPage } from '../pages/ui/PimPage';
-import { LoginPage } from '../pages/ui/LoginPage';
-import { DashboardPage } from '../pages/ui/DashboardPage';
-import { AdminPage } from '../pages/ui/AdminPage';
+import { test as base, expect } from "@playwright/test";
+import { PimPage } from "../pages/ui/PimPage";
+import { LoginPage } from "../pages/ui/LoginPage";
+import { DashboardPage } from "../pages/ui/DashboardPage";
+import { AdminPage } from "../pages/ui/AdminPage";
 
 export interface UiFixtures {
-    pimPage: PimPage;
-    loginPage: LoginPage;
-    dashboardPage: DashboardPage;
-    adminPage: AdminPage;
+  pimPage: PimPage;
+  loginPage: LoginPage;
+  dashboardPage: DashboardPage;
+  adminPage: AdminPage;
 }
 
 export const test = base.extend<UiFixtures>({
@@ -24,7 +24,7 @@ export const test = base.extend<UiFixtures>({
     await use(new DashboardPage(page));
   },
   adminPage: async ({ page }, use) => {
-      await use(new AdminPage(page));
+    await use(new AdminPage(page));
   },
 });
 
